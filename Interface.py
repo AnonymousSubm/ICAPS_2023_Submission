@@ -231,6 +231,6 @@ def interface_generation(system, transitions, properties):
         f.write(key + ": " + ''.join(dict_properties[key]) + '\n')
 
     f.close()
-
+    
     return
 

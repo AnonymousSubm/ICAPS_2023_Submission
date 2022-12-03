@@ -1998,7 +1998,7 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
     print("1: an error-free run test")
     print("2: a non-fatal error test")
     print("3: a fatal error run test")
-    test = input("Which test do you want to perform? (Please enter 1, or 2, or 3.)")
+    test = input("Which test do you want to perform? (Please enter 1, 2, or 3.)")
     if test=='1':
         T=[1,2,3]
     elif test=='2':

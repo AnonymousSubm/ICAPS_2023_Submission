@@ -134,43 +134,27 @@ def main():
               "D4":["6", "7", "8"],"D6": ["A1", "A2","A3"],"D61":["A1"]}
     constants = ["0", "1", "2","3", "4", "5", "6", "7", "8",  "9", "10","charging","allother", "all", '_',"A1","A2","A3","C","D"]
     belief_base4 = ["idle(2)", "idle(3)", "idle(4)","idle(5)", "reserved(A1,6)", "reserved(A2,7)", "reserved(A3,8)"]
-    #belief_base4 = ["reserved(A2,8)","reserved(A1,6)",]
-    goal = ["located(charging)"]
     goal_base1 = ['delivered(2,1)']
     goal_base2 = ["delivered(2,2)"]
     goal_base3 = ['delivered(2,3)']
     goal_base4 = ["delivered(2,4)"]
-    goal_base5 = ['delivered(2,5)']
-    goal_base6 = ["delivered(2,6)"]
-    goal_base7 = ["delivered(2,7)"]
-    goal_base8 = ["delivered(2,8)"]
-    goal_base9 = ["delivered(2,9)"]
-    goal_base10 = ["delivered(2,10)"]
-    goals1 = [goal_base1,goal,goal_base2, goal, goal_base7, goal, goal_base10,goal]
-    goals1=[goal_base1,goal_base2]
     goals1=[goal_base1]
-    goals2 = [goal_base5,goal_base6]
-    goals3 = [goal_base8]#, goal, goal_base6, goal, goal_base9,goal]
+    goals2 = [goal_base2]
+    goals3 = [goal_base3,goal_base4]
     goals4 = []
     dummy_agents=["C","D"]
     safety = {"A1": ["safe1","safe2"], "A2": ["safe1","safe2"], "A3": ["safe1","safe2"]}
     error_messages=["E1","E2","E3","E4","E5"]
     A1 = DG.Agent("A1", [], goals1)
-    A3 = DG.Agent("A3", [], goals2)
-    A2 = DG.Agent("A2", [], goals3)
+    A2 = DG.Agent("A2", [], goals2)
+    A3 = DG.Agent("A3", [], goals3)
     C = DG.Agent("C", belief_base4, goals4)
     D = DG.Agent("D",[],[])
 
-    Agents = [A2, C, D]
-    Agents = [A1,A2, C, D]
-    Agents = [A1, A2, A3, C, D]
-    Agents = [A1, C, D]
-
-    Agents = [A2,A3,C,D]
     Agents = [A1,A2,A3,C, D]
-    #Agents = [A3, C, D]
 
-    prior_beliefs=["on(1,3)","on(2,3)","on(3,3)","on(4,3)","on(5,3)","on(6,3)","on(7,4)","on(8,4)","on(9,4)","on(10,4)"]
+
+    prior_beliefs=["on(1,3)","on(2,4)","on(3,3)","on(4,3)"]
     agent_test = DG.task_planner(Agents, knowledge_base, constraints_of_action_generation,
                                  enableness_of_actions, action_specification, sent_message_update,
                                  event_processing, domain, constants, dummy_agents, safety,error_messages,prior_beliefs)
@@ -181,5 +165,3 @@ def main():
     f.close()
 
 main()
-
-

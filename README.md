@@ -13,6 +13,7 @@ The file, test1.pm, is the generated Prism model.
 
 Get the results of the online approach:  
 Put AMR_Runtime_Spec.py, Task_Planner.py, MG_01.txt, MG_02.txt, MG_03.txt, MG_04.txt, and MG_05.txt into one folder.  
+Compile and run AMR_Runtime_Spec.py, Task_Planner.py in Pycharm or simply in the terminal.  
 To test an error-free run for the given task, give inputs: 1, 2, and 3 respectively.   
 Example:  
 Which test do you want to pereform? (Please enter 1-8.)1  

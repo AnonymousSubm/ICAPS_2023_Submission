@@ -1998,7 +1998,7 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
 
     for agent in agents:
         if agent.name not in dummy_agents:
-            test = input("Which test do you want to pereform? (Please enter 1-8.)")
+            test = input("Which test do you want to pereform? (Please enter 1-5.)")
             sensor_info_list = info_parse(test)
             agent_sensor_info_dict.update({agent.name:sensor_info_list})
 

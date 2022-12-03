@@ -1817,7 +1817,8 @@ def DM_generation(agents, knowledge_base, constraints_of_action_generation,
             break
     for agent in agents:
         name=agent.name
-        if error_info[name]!=[]:
+        #if error_info[name]!=[]:
+        if 'E4' in error_info[name]:
             agent.desired_next_state=[]
     if redistr_flag:
         active_agents=[]
@@ -2023,8 +2024,6 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
             N=len(agent_sensor_info_dict[key])
 
     while flag_task and i<N:
-        if i>=29:
-            MM=5
         for agent in agents:
             if agent.name not in dummy_agents:
                 sensor_info_list=agent_sensor_info_dict[agent.name]
@@ -2092,6 +2091,7 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
                 if agent.goals==[]:
                     agent.desired_next_state=[]
                 #agent.belief_base=[]
+            #print(agent.belief_base)
             #print(agent.goals)
             #print(agent.desired_next_state)
             #agent.sent_messages=[]
@@ -2099,8 +2099,7 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
         for key in generated_actions:
             print(key, generated_actions[key])
             processed_action = predicate_information(generated_actions[key], constants)
-        if empty_dict(generated_actions):
-            print("Waiting for new information!")
+
 
         i=i+1
         #Work for single agent
@@ -2113,6 +2112,10 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
                 if agent.goals != []:
                     flag_task = True
                     break
+        if empty_dict(generated_actions) and flag_task:
+            print("Waiting for new information!")
+        if not flag_task:
+            print("No active goals!")
     return agents
 
 def info_parse(test):

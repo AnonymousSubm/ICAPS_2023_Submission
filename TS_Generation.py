@@ -1659,6 +1659,7 @@ def event_analysis(received_messages, event_processing, atoms_current_state, ato
                                         atoms_goal_state_copy.remove(enabled[1])
                 j = j + 1
     for rule in non_communication_processing:
+        rule_rep=rule_normal_representation(rule,constants)
         a_goal_predicate = []
         pos = find_position_in_list(rule, 'a-goal')[0]
         a_goal_predicate.append(rule[pos + 1])
@@ -1914,6 +1915,7 @@ def system_generation(agents, knowledge_base, constraints_of_action_generation,e
                     state_properties_rep.update({key: {name: state_normal_representation(atom_current)}})
                 #Add on 1021
                 if current_goal==desired_goal and not dummy_flag:
+                    #enabled_sent_messages_dict[name]=[]
                     enabled_action_dict[name]=[]
                     substate_dict.update({name: substate})
                     substate_dict_rep.update({name: transform_mental_states_normal(substate)})
@@ -1929,35 +1931,18 @@ def system_generation(agents, knowledge_base, constraints_of_action_generation,e
                     atom_goal = state_property_generation(current_focus, knowledge_base, domain,constants)
                     atom_goal_rep = state_normal_representation(atom_goal)
 
-                    if linear_mode:
-                        flag_continue=True
-                        for constraint in constraints_of_action_generation:
-                            if flag_continue:
-                                # Single decision-making generation
-                                ACA = action_constraints_analysis([constraint], atom_current, atom_goal, domain,constants)
-                                enabled_constrains = ACA[0]
-                                All_Act_Cons_Name = ACA[1]
-                                enabled_constrains = sum(enabled_constrains, [])
-                                enabled_constrains_rep = state_normal_representation(enabled_constrains)
-                                enabled_constrains_rep = list(set(enabled_constrains_rep))
-                                enabled_constrains = []
-                                for i in enabled_constrains_rep:
-                                    enabled_constrains.append(predicate_information(i,constants))
-                                if enabled_constrains!=[]:
-                                    flag_continue=False
-                            else:
-                                break
-                    else:
-                        #Single decision-making generation
-                        ACA = action_constraints_analysis(constraints_of_action_generation, atom_current, atom_goal,domain,constants)
-                        enabled_constrains = ACA[0]
-                        All_Act_Cons_Name = ACA[1]
-                        enabled_constrains = sum(enabled_constrains, [])
-                        enabled_constrains_rep = state_normal_representation(enabled_constrains)
-                        enabled_constrains_rep = list(set(enabled_constrains_rep))
-                        enabled_constrains = []
-                        for i in enabled_constrains_rep:
-                            enabled_constrains.append(predicate_information(i,constants))
+                    # Single decision-making generation
+                    ACA = action_constraints_analysis(constraints_of_action_generation, atom_current, atom_goal, domain,
+                                                      constants)
+                    enabled_constrains = ACA[0]
+                    All_Act_Cons_Name = ACA[1]
+                    enabled_constrains = sum(enabled_constrains, [])
+                    enabled_constrains_rep = state_normal_representation(enabled_constrains)
+                    enabled_constrains_rep = list(set(enabled_constrains_rep))
+                    enabled_constrains = []
+                    for i in enabled_constrains_rep:
+                        enabled_constrains.append(predicate_information(i, constants))
+
                     enabled_actions = action_enableness_analysis(enableness_of_actions, atom_current,enabled_constrains, domain, All_Act_Cons_Name,constants)
                     enabled_actions_rep = state_normal_representation(enabled_actions)
                     if enabled_actions != []:
@@ -2176,15 +2161,14 @@ def system_generation(agents, knowledge_base, constraints_of_action_generation,e
                                 else:
                                     new_substate_goal_managements.update({name:[(substate_goal_management[name][0], substate_goal_management[name][1])]})
             if not empty_dict(enabled_sent_messages_dict) or not empty_dict(enabled_action_dict):
-                #for agent in agents:
-                #    name=agent.name
-                #    if name in enabled_action_dict.keys():
-                #        enabled_sent_messages_dict[name]=[]
                 for agent in agents:
                     possible_next_beliefs=[]
                     name=agent.name
                     if name not in new_substate_dict.keys():
-                        en_sent_messages=enabled_sent_messages_dict[name]
+                        if substate_dict[name][1]==[] and agent.name not in dummy_agents:
+                            en_sent_messages=[]
+                        else:
+                            en_sent_messages=enabled_sent_messages_dict[name]
                         substate=substate_dict[name]
                         current_belief_base=substate[0]
                         current_belief_base_rep=state_normal_representation(current_belief_base)
@@ -2259,18 +2243,16 @@ def system_generation(agents, knowledge_base, constraints_of_action_generation,e
                         i=i+1
                     possible_next_states=copy.deepcopy(possible_next_states_new)
                     possible_next_goal_managements=copy.deepcopy(possible_next_goal_managements_new)
-
+                    enabled_action_sent_messages_flatten_new = []
                     if key in enabled_action_dict.keys() and enabled_action_dict[key]!=[]:
                         enabled_action_sent_messages_flatten_new=[]
                         for action in enabled_action_dict_rep[key]:
                             action_info = key + str(": ") + action
                             for item in enabled_action_sent_messages_flatten:
                                 enabled_action_sent_messages_flatten_new.append(item + [action_info])
-                    else:
-                        enabled_action_sent_messages_flatten_new = []
 
-                    if enabled_sent_messages_dict[key] != []:
 
+                    if (enabled_sent_messages_dict[key] != [] and substate_dict[key][1]!=[] )or key in dummy_agents:
                         for en_msg1 in enabled_sent_messages_dict[key]:
                             en_msg = en_msg1[0]
                             if type(en_msg[0]) == type(()):
@@ -2289,7 +2271,8 @@ def system_generation(agents, knowledge_base, constraints_of_action_generation,e
                             for item in enabled_action_sent_messages_flatten:
                                 enabled_action_sent_messages_flatten_new.append(item + [sent_msg_info])
 
-                    enabled_action_sent_messages_flatten=copy.deepcopy(enabled_action_sent_messages_flatten_new)
+                    if enabled_action_sent_messages_flatten_new!=[]:
+                        enabled_action_sent_messages_flatten=copy.deepcopy(enabled_action_sent_messages_flatten_new)
 
             # We get all possible next states at this step.
             else:

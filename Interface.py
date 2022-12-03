@@ -231,50 +231,6 @@ def interface_generation(system, transitions, properties):
         f.write(key + ": " + ''.join(dict_properties[key]) + '\n')
 
     f.close()
-    f = open("test2.pm", "w+")
-    f.write("dtmc" + '\n' + '\n')
-    f.write("module test" + '\n')
-    f.write("  s: [0.." + str(len(system) - 1) + "]  init 0 ;" + '\n')
 
-    # Initialize all properties based on their value in the initial state.
-    initial = []
-    for key in s_properties_normal['I']:
-        initial = initial + s_properties_normal['I'][key]
-
-    for i in dict_properties:
-        f.write("  " + i + ":bool")  # +'  init false;\n')
-        if i in initial:
-            f.write('   init true;\n')
-        else:
-            f.write('   init false;\n')
-    f.write("\n")
-
-    for t in transitions:
-        for key in t:
-            transition_symbol = map_transition(t[key], dict_state2, dict_actions)
-            f.write("   []"+' s=' + str(transition_symbol[0]))
-            P1=[]
-            for agent in s_properties_normal[dict_state2[transition_symbol[0]]]:
-                P1=P1+s_properties_normal[dict_state2[transition_symbol[0]]][agent]
-            for key in dict_properties:
-                if key in P1:
-                    f.write('  &(' + key + '= true)  ')
-                else:
-                    f.write('  &(' + key + '= false)  ')
-                    "(s'="
-            f.write('->' + "(s'=" + str(transition_symbol[2]) + ")")
-
-            P2=[]
-            for agent in s_properties_normal[dict_state2[transition_symbol[2]]]:
-                P2=P2+s_properties_normal[dict_state2[transition_symbol[2]]][agent]
-            for key in dict_properties:
-                if key in P2:
-                    f.write('  &(' + key + '\'= true)  ')
-                else:
-                    f.write('  &(' + key + '\'= false)  ')
-            f.write(';\n')
-    f.write('     []s=' + str(final_state) + '-> (s\'=' + str(final_state) + ");\n")
-    f.write("\n\n endmodule")
-    f.close()
     return
 

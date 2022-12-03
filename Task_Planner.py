@@ -1995,11 +1995,22 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
     #from time import sleep
     #sleep(1.5)
     agent_sensor_info_dict={}
-
+    print("1: an error-free run test")
+    print("2: a non-fatal error test")
+    print("3: a fatal error run test")
+    test = input("Which test do you want to pereform? (Please enter 1, or 2, or 3.)")
+    if test=='1':
+        T=[1,2,3]
+    elif test=='2':
+        T=[1,2,4]
+    else:
+        T=[1,2,5]
+    i=0
     for agent in agents:
         if agent.name not in dummy_agents:
-            test = input("Which test do you want to pereform? (Please enter 1-5.)")
-            sensor_info_list = info_parse(test)
+            t=T[i]
+            i=i+1
+            sensor_info_list = info_parse(t)
             agent_sensor_info_dict.update({agent.name:sensor_info_list})
 
     flag_task = False
@@ -2120,7 +2131,7 @@ def task_planner(agents, knowledge_base, constraints_of_action_generation,
 
 def info_parse(test):
     sensor_info_list = []
-    file_name = "MG_0" + test + ".txt"
+    file_name = "MG_0" + str(test) + ".txt"
     f = open(file_name, "r")
     for line in f.readlines():
         if line[0] == '{':

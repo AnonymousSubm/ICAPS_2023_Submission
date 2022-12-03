@@ -1421,7 +1421,7 @@ def DM_generation(agents, knowledge_base, constraints_of_action_generation,
                 # Error message checking
                 # Generate safe decision-making, safe state checking
                 if error_info[name] == ['E4'] and name in active_agents:
-                    print(name, " is crashed!")
+                    print(name, " crashed!")
                     ACA=action_constraints_analysis([constraints_of_action_generation[-1]], atom_current, atom_goal, domain,
                                                               constants)
                     enabled_constrains = ACA[0]

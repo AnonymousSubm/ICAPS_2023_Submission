@@ -14,21 +14,14 @@ The file, test1.pm, is the generated Prism model.
 Get the results of the online approach:  
 Put AMR_Runtime_Spec.py, Task_Planner.py, MG_01.txt, MG_02.txt, MG_03.txt, MG_04.txt, and MG_05.txt into one folder.  
 Compile and run AMR_Runtime_Spec.py, Task_Planner.py in Pycharm or simply in the terminal.  
-To test an error-free run for the given task, give inputs: 1, 2, and 3 respectively.   
+To test an error-free run for the given task, give inputs: 1. 
+To test a non-fatal error run, we use ‘E1’ as an example, given inputs: 2. 
+To test a non-fatal error run, we use ‘E4’ as an example, given inputs: 3.  
 Example:  
-Which test do you want to pereform? (Please enter 1-8.)1  
-Which test do you want to pereform? (Please enter 1-8.)2  
-Which test do you want to pereform? (Please enter 1-8.)3  
-To test a non-fatal error run, we use ‘E1’ as an example, given inputs: 1, 2, and 4 respectively.   
-Example:  
-Which test do you want to pereform? (Please enter 1-8.)1  
-Which test do you want to pereform? (Please enter 1-8.)2  
-Which test do you want to pereform? (Please enter 1-8.)4  
-To test a non-fatal error run, we use ‘E4’ as an example, given inputs: 1, 2, and 5 respectively.   
-Example:  
-Which test do you want to pereform? (Please enter 1-8.)1  
-Which test do you want to pereform? (Please enter 1-8.)2  
-Which test do you want to pereform? (Please enter 1-8.)5  
+1: an error-free run test  
+2: a non-fatal error test  
+3: a fatal error run test  
+Which test do you want to pereform? (Please enter 1, 2, or 3.)3.  
 
 
 Output explanation:  
